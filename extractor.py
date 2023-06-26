@@ -8,12 +8,12 @@ from audio_features import *
 
 hop_length = 512 # no overelap
 frame_size = 512 # analysis window of 23ms
-root_dir = '/home/gab/Área de Trabalho/feature_ex/audio_samples/'
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.join(current_dir, 'audio_samples')
 data = np.array([])
 
 for folder in os.listdir(root_dir):
     folder_path = os.path.join(root_dir, folder)
-    print(folder_path)
     for filename in os.listdir(folder_path):
         label = folder.split('/')[-1]
 
