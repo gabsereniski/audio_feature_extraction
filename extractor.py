@@ -12,6 +12,8 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.join(current_dir, 'audio_samples')
 data = np.array([])
 
+print("running...")
+
 for folder in os.listdir(root_dir):
     folder_path = os.path.join(root_dir, folder)
     for filename in os.listdir(folder_path):
@@ -61,6 +63,7 @@ for folder in os.listdir(root_dir):
             data = features
         else:
             data = np.vstack((data, features))
+    print(f"finished {folder}")
 
 normalized_data = normalize(data, axis=0)
 np.savetxt('features.txt', normalized_data, fmt='%.12f')
