@@ -18,15 +18,15 @@ for folder in os.listdir(root_dir):
     folder_path = os.path.join(root_dir, folder)
     for filename in os.listdir(folder_path):
         label = folder.split('/')[-1]
-
+        
         audio_path = os.path.join(folder_path, filename)
         y, sr = librosa.load(audio_path)
         S = librosa.stft(y, n_fft=frame_size, hop_length=hop_length)
         M = np.abs(S) # vetor de magnitudes
         f_bins = librosa.fft_frequencies(sr=sr, n_fft = frame_size) # vetor de frequencias
-
+        
         features = np.array([])
-
+        
         mel_spec = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=frame_size, hop_length=hop_length)
 
         mfccs = librosa.feature.mfcc(S=librosa.power_to_db(mel_spec), n_mfcc=5)
