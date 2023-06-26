@@ -75,8 +75,10 @@ def low_energy(signal, frame_size):
     return low_energy_percentage
 
 def texture_window(analysis_windows, n=43):
-    
-    w = np.lib.stride_tricks.sliding_window_view(analysis_windows, window_shape=(n,))
+    # Ajusta tamanho da janela se o input eh menor que 43 por algum motivo
+    window_size = min(n, analysis_windows.shape[0]) 
+
+    w = np.lib.stride_tricks.sliding_window_view(analysis_windows, window_shape=(window_size,))
     means = np.mean(w, axis=1)
     variances = np.var(w, axis=1)
     
