@@ -58,7 +58,7 @@ for folder in os.listdir(root_dir):
         features = np.append(features, zc_var)
 
         features = np.append(features, low_energy_feature)
-
+        features = np.append(features, label)
         if data.size == 0:
             data = features
         else:
