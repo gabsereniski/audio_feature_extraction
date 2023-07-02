@@ -73,7 +73,6 @@ def process_folder(folder_path):
     print(f"finished {folder_path}")
     return folder_features
 
-
 # Collect the results from the worker processes
 results = Parallel(n_jobs=num_cores)(delayed(process_folder)(os.path.join(root_dir, folder)) for folder in os.listdir(root_dir))
 

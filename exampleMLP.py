@@ -17,41 +17,45 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_classification
 from sklearn import tree
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 
 
 def main():
-    # load data
-    print("Loading data...")
-    # tr = np.loadtxt(dataTr) ;
-    # ts = np.loadtxt(dataTs) ;
-    tr = np.loadtxt("treino5x5.txt", delimiter=',')
-    ts = np.loadtxt("teste5x5.txt", delimiter=',')
+    # Carregar dados de treino
+    train_data = pd.read_csv("train_data.txt", delimiter=' ', header=None)
+    X_train = train_data.iloc[:, :-1].values  # Atributos
+    labels_train = train_data.iloc[:, -1].values  # Rótulos
 
-    na = tr.shape[1] - 1  # Assumes the last column is the target variable
+    # Codificar rótulos de treino
+    label_encoder = LabelEncoder()
+    y_train = label_encoder.fit_transform(labels_train)
 
-    y_test = ts[:, na]
-    y_train = tr[:, na]
-    X_train = tr[:, 1:na]
-    X_test = ts[:, 1:na]
+    # Carregar dados de teste
+    test_data = pd.read_csv("test_data.txt", delimiter=' ', header=None)
+    X_test = test_data.iloc[:, :-1].values  # Atributos
+    labels_test = test_data.iloc[:, -1].values  # Rótulos
+
+    # Codificar rótulos de teste
+    y_test = label_encoder.transform(labels_test)
 
     ## k-NN classifier
-    from sklearn.metrics import classification_report
-
     neigh = KNeighborsClassifier(n_neighbors=1, metric="euclidean")
     neigh.fit(X_train, y_train)
-    # neigh.score(X_test, y_test)
+
     print("KNN")
     print(classification_report(y_test, neigh.predict(X_test), digits=4))
-
+    
     ##SVM com Grid search
     C_range = 2.0 ** np.arange(-5, 15, 2)
     gamma_range = 2.0 ** np.arange(3, -15, -2)
+    
     k = ["rbf"]
     # instancia o classificador, gerando probabilidades
     srv = svm.SVC(probability=True, kernel="rbf")
     ss = StandardScaler()
     pipeline = Pipeline([("scaler", ss), ("svm", srv)])
-
+    
     param_grid = {"svm__C": C_range, "svm__gamma": gamma_range}
 
     # faz a busca
@@ -86,12 +90,12 @@ def main():
         alpha=1e-5,
         hidden_layer_sizes=(500, 500, 500, 500),
         random_state=1,
-        max_iter=1000
+        max_iter=10000
     )
     clf.fit(X_train, y_train)
     print("MLP, sgd")
     print(classification_report(y_test, clf.predict(X_test), digits=4))
-
+    
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.fit_transform(X_test)
