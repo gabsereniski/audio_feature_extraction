@@ -11,7 +11,7 @@ Trabalho final da disciplina de Inteligência Artificial.
 | 2349256    |  Ana Carla Quallio Rosa  |
 
 ### Latex
-Link para edição do arquivo: https://www.overleaf.com/3818792416vnqntsrrjhyc
+Link para edição do arquivo: https://www.overleaf.com/2117151848chkqkjxqzwhr
 
 # Extração de características de áudio
 
