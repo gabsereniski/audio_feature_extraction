@@ -19,6 +19,7 @@ from sklearn.datasets import make_classification
 from sklearn import tree
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import confusion_matrix
 
 
 def main():
@@ -42,11 +43,13 @@ def main():
     ## k-NN classifier
     neigh = KNeighborsClassifier(n_neighbors=1, metric="euclidean")
     neigh.fit(X_train, y_train)
-
+    y_pred_knn = neigh.predict(X_test)
     print("KNN")
-    print(classification_report(y_test, neigh.predict(X_test), digits=4))
-    
-    ##SVM com Grid search
+    print(classification_report(y_test, y_pred_knn, digits=4))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred_knn))
+   
+###SVM com Grid search
     C_range = 2.0 ** np.arange(-5, 15, 2)
     gamma_range = 2.0 ** np.arange(3, -15, -2)
     
@@ -64,24 +67,34 @@ def main():
 
     # recupera o melhor modelo
     model = grid.best_estimator_
+    y_pred_svm = model.predict(X_test)
     print("SVM")
-    print(classification_report(y_test, model.predict(X_test), digits=4))
+    print(classification_report(y_test, y_pred_svm, digits=4))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred_svm))
 
-    ### MLP
+### MLP
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.fit_transform(X_test)
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
     clf = MLPClassifier(
         solver="lbfgs",
         alpha=1e-5,
         hidden_layer_sizes=(500, 500, 500, 500),
         random_state=1,
-        max_iter=1000
+        max_iter=10000
     )
     clf.fit(X_train, y_train)
     print("MLP, lbfgs")
     print(classification_report(y_test, clf.predict(X_test), digits=4))
-
+    
+    y_pred_mlp_lbfgs = clf.predict(X_test_scaled)
+    print("MLP, lbfgs")
+    print(classification_report(y_test, y_pred_mlp_lbfgs, digits=4))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred_mlp_lbfgs))
+    
+    
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.fit_transform(X_test)
@@ -93,8 +106,11 @@ def main():
         max_iter=10000
     )
     clf.fit(X_train, y_train)
+    y_pred_mlp_sgd = clf.predict(X_test_scaled)
     print("MLP, sgd")
-    print(classification_report(y_test, clf.predict(X_test), digits=4))
+    print(classification_report(y_test, y_pred_mlp_sgd, digits=4))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred_mlp_sgd))
     
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
@@ -107,8 +123,11 @@ def main():
         max_iter=1000
     )
     clf.fit(X_train, y_train)
+    y_pred_mlp_adam = clf.predict(X_test_scaled)
     print("MLP, adam")
-    print(classification_report(y_test, clf.predict(X_test), digits=4))
+    print(classification_report(y_test, y_pred_mlp_adam, digits=4))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred_mlp_adam))
 
 
 ### Random Forest Classifier
@@ -122,14 +141,20 @@ def main():
     )
     clf = RandomForestClassifier(n_estimators=10000, max_depth=30, random_state=1)
     clf.fit(X_train, y_train)
-    print("random forest")
-    print(classification_report(y_test, clf.predict(X_test), digits=4))    
+    y_pred_rf = clf.predict(X_test)
+    print("Random Forest")
+    print(classification_report(y_test, y_pred_rf, digits=4))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred_rf))
    
-    ## Decision Tree
+### Decision Tree
     clf = tree.DecisionTreeClassifier()
     clf.fit(X_train, y_train)
-    print("DT")
-    print(classification_report(y_test, clf.predict(X_test), digits=4))
+    y_pred_dt = clf.predict(X_test)
+    print("Decision Tree")
+    print(classification_report(y_test, y_pred_dt, digits=4))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred_dt))
     tree.plot_tree(clf)
 
 if __name__ == "__main__":
