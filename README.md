@@ -10,9 +10,6 @@ Trabalho final da disciplina de Inteligência Artificial.
 | 2046407    |  Maria Fernanda Pinguelli Sodré  |
 | 2349256    |  Ana Carla Quallio Rosa  |
 
-### Latex
-Link para edição do arquivo: https://www.overleaf.com/2117151848chkqkjxqzwhr
-
 # Extração de características de áudio
 
 Funções para extração das características espectrais de sinais de áudio em python.
