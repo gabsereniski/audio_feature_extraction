@@ -20,7 +20,7 @@ from sklearn import tree
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import confusion_matrix
-
+from scipy.stats import mode
 
 def main():
     # Carregar dados de treino
@@ -156,6 +156,24 @@ def main():
     print("Confusion Matrix:")
     print(confusion_matrix(y_test, y_pred_dt))
     tree.plot_tree(clf)
+# Combinação dos resultados
+    y_pred_combined = mode(
+        np.array([
+            y_pred_knn,
+            y_pred_svm,
+            y_pred_mlp_lbfgs,
+            y_pred_mlp_sgd,
+            y_pred_mlp_adam,
+            y_pred_rf,
+            y_pred_dt
+        ]),
+        axis=0
+    )[0][0]
 
+    # Métricas de desempenho para a combinação dos classificadores
+    print("Combined Results")
+    print(classification_report(y_test, y_pred_combined, digits=4))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred_combined))
 if __name__ == "__main__":
     main()
