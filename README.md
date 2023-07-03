@@ -1,4 +1,4 @@
-# Som dos passarin
+# Classificação de canto de pássaros
 Trabalho final da disciplina de Inteligência Artificial.
 
 ### Time
