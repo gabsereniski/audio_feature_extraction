@@ -4,10 +4,11 @@
 
 |  RA   | Name |
 | -------- | ------- |
-| 2252813  |     Reginaldo Gregório de Souza Neto |
+| 2349256    |  Ana Carla Quallio Rosa  |
 | 2349345 |     Gabriela Paola Sereniski |
 | 2046407    |  Maria Fernanda Pinguelli Sodré  |
-| 2349256    |  Ana Carla Quallio Rosa  |
+| 2252813  |     Reginaldo Gregório de Souza Neto |
+
 
 ### Extração de características de áudio
 
